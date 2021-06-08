@@ -2,7 +2,7 @@ import os
 
 path = "tools\\ffmpeg.exe"
 
-def ffmpeg(inputs, output, options="", outputOptions="") -> str:
+def launch(inputs, output, options="", outputOptions="") -> str:
     command = path
     command += " " + options 
     for input, inputOptions in inputs.items():
@@ -13,3 +13,4 @@ def ffmpeg(inputs, output, options="", outputOptions="") -> str:
         command += " " + outputOptions
     command += " " + output
     os.system(command)
+    return command

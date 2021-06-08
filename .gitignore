@@ -1,2 +1,7 @@
-assets/
-__pycache__/
+assets/*
+__pycache__
+.vscode
+.mypy_cache
+!assets/.gitkeep
+tools
+tmp
