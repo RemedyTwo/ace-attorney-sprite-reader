@@ -24,6 +24,8 @@ class Maya:
         "Maid Shocked": "assets\\graphics\\gs3\\animation\\characters\\pl2900.png"
     }
 
+    # MOUTH every 5 frames, every 60 frames eyes
+
     happy = Sprite(
         path=paths.get("Happy"),
         chunks={
@@ -40,12 +42,13 @@ class Maya:
         },
         resolution=(626, 1077)
     )
-
-    image1 = happy.get_chunk_image(expressions=("happy_main", "happy_sleeve", "happy_bottom"))
-    image2 = happy.get_chunk_image(expressions=(("happy_main", (0, 490 - 23, 0 + 626, 490 + 479 - 23)), "happy_sleeve", "happy_bottom", "happy_anim1"))
-    image3 = happy.get_chunk_image(expressions=(("happy_main", (0, 490 - 23, 0 + 626, 490 + 479 - 23)), "happy_sleeve", "happy_bottom", "happy_anim2"))
-
-    sequence = (image1, image2, image3)
-    for index, image in enumerate(sequence, start=1):
+    
+    yes = (
+        happy.get_chunk_image(expressions=("happy_main", "happy_sleeve", "happy_bottom")), 
+        happy.get_chunk_image(expressions=(("happy_main", (0, 490 - 23, 0 + 626, 490 + 479 - 23)), "happy_sleeve", "happy_bottom", "happy_anim1")), 
+        happy.get_chunk_image(expressions=(("happy_main", (0, 490 - 23, 0 + 626, 490 + 479 - 23)), "happy_sleeve", "happy_bottom", "happy_anim2"))
+    )
+    
+    for index, image in enumerate(yes, start=1):
         image.save("tmp\\happy" + str(index) + ".png")
-    image1.save("tmp\\tmp.apng", save_all=True, append_images=[image2, image3, image2], duration=100, loop=0)
+    yes[0].save("tmp\\tmp.apng", save_all=True, append_images=[yes[1], yes[2], yes[1]], duration=100, loop=0)
