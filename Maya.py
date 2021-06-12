@@ -42,29 +42,50 @@ happy = Sprite(
 )
 
 yes_anim = happy.get_chunk_image_sequence(
-    (("main", "sleeve", "bottom"), 10),
-    (("main", "sleeve", "bottom", "eyes1", "mouth1"), 6), # 6 frames
-    (("main", "sleeve", "bottom", "excited"), 27), # 27 frames
-    ((("main", (0, 490 - 23, 0 + 626, 490 + 479 - 23)), "sleeve", "bottom", "anim1"), 4), # 4 frames
-    ((("main", (0, 490 - 23, 0 + 626, 490 + 479 - 23)), "sleeve", "bottom", "anim2"), 8), # 8 frames
-    ((("main", (0, 490 - 23, 0 + 626, 490 + 479 - 23)), "sleeve", "bottom", "anim1"), 4),
-    (("main", "sleeve", "bottom", "excited"), 10)
+    ("main", "sleeve", "bottom") * 10,
+    ("main", "sleeve", "bottom", "eyes1", "mouth1") * 6, # 6 frames
+    ("main", "sleeve", "bottom", "excited") * 27, # 27 frames
+    (("main", (0, 490 - 23, 0 + 626, 490 + 479 - 23)), "sleeve", "bottom", "anim1") * 4, # 4 frames
+    (("main", (0, 490 - 23, 0 + 626, 490 + 479 - 23)), "sleeve", "bottom", "anim2") * 8, # 8 frames
+    (("main", (0, 490 - 23, 0 + 626, 490 + 479 - 23)), "sleeve", "bottom", "anim1") * 4,
+    ("main", "sleeve", "bottom", "excited") * 10
 )
 
 def get_yes_speaking(length: int) -> list:
     image_sequence = []
-    tmp = 0
-    for i in range(0, length):
-        current_frame = None
-        if tmp > 2:
-            tmp = 0
-        if tmp == 0:
-            current_frame = (("main", "sleeve", "bottom"), 9)
-        elif tmp == 1 or tmp == 3:
-            current_frame = (("main", "sleeve", "bottom", "mouth1"), 9),
-        elif tmp == 2:
-            current_frame = (("main", "sleeve", "bottom", "mouth2"), 9),
-        image_sequence.append(happy.get_chunk_image_sequence(current_frame))
-        tmp += 1
+    mouth_counter = 0
+    eye_counter = 0
 
-save_video_from_image_sequence(get_yes_speaking(120), "tmp\\tmp", 30)
+    for i in range(0, length):
+        current_frame = ["main", "sleeve", "bottom"]
+        if mouth_counter < 8:
+            pass
+        elif mouth_counter < 17:
+            current_frame.append("mouth1")
+        elif mouth_counter < 26:
+            current_frame.append("mouth2")
+        elif mouth_counter < 35:
+            current_frame.append("mouth1")
+
+        if eye_counter < 72:
+            pass
+        elif eye_counter < 78:
+            current_frame.append("eyes1")
+        elif eye_counter < 84:
+            current_frame.append("eyes2")
+        elif eye_counter < 90:
+            current_frame.append("eyes1")
+
+        mouth_counter += 1
+        if mouth_counter > 35:
+            mouth_counter = 0
+        eye_counter += 1
+        if eye_counter > 90:
+            eye_counter = 0
+        
+        image_sequence.append(happy.get_chunk_image(current_frame))
+        print("Image " + str(i) + " prête.")
+    return image_sequence
+
+
+save_video_from_image_sequence(get_yes_speaking(60*30), "tmp\\tmp", 60)

@@ -48,16 +48,11 @@ class Sprite:
                 pass
         return image
     
-    def get_chunk_image_sequence(self, *expressions: tuple) -> list:
+    def get_chunk_image_sequence(self, *expressions: tuple or list) -> list:
         image_sequence = []
-        for key in expressions:
-            image_sequence.append(Frame(self.get_chunk_image(key[0]), key[1]))
+        for expression in expressions:
+            image_sequence.append(self.get_chunk_image(expression))
         return image_sequence
-    
-class Frame:
-    def __init__(self, image: Image, length: int) -> None:
-        self.image = image
-        self.length = length
     
 def save_image_sequence_as_png(image_sequence: tuple, path: str) -> None:
     for index, image in enumerate(image_sequence, start=1):
@@ -67,17 +62,10 @@ def save_image_sequence_as_png(image_sequence: tuple, path: str) -> None:
 def save_image_sequence_as_apng(image_sequence: list, path: str) -> None:
     image_sequence[0].save(path + ".apng", save_all=True, append_images=image_sequence[1:], duration=100, loop=0)
 
-def get_image_sequence_length(image_sequence: tuple) -> int:
-    counter = 0
-    for item in image_sequence:
-        counter += item.length   
-    return counter
-
-def save_video_from_image_sequence(image_sequence: tuple, path: str, fps: int):
+def save_video_from_image_sequence(image_sequence: tuple or list, path: str, fps: int):
     filename = path + ".mp4"
-    process = Popen(["ffmpeg", "-y", "-f", "image2pipe", "-vcodec", "png", "-r", str(fps), "-i", "-", filename], stdin=PIPE, stdout=PIPE)
-    for frame in image_sequence:
-        for _ in range(1, frame.length):
-            frame.image.save(process.stdin, "PNG")
+    process = Popen(["ffmpeg", "-y", "-f", "image2pipe", "-vcodec", "png", "-r", str(fps), "-i", "-", "-vcodec", "png", "-qscale", "0", filename], stdin=PIPE, stdout=PIPE)
+    for image in image_sequence:
+        image.save(process.stdin, "PNG")
     process.stdin.close()
     process.wait()
