@@ -5,10 +5,10 @@ from paths import *
 from PIL import Image
 
 class Element:
-    def __init__(self, background: str=None, character=type, expression: tuple or list or str=None, length: int=None, effect: str=None):
+    def __init__(self, background: str = None, character = None, expression: tuple or list or str=None, length: int=None, effect: str=None):
         self.background = backgrounds.get(background)
         self.character = character
-        self.expression = character.get(length, expression)
+        self.expression = character.get(length, 60, expression)
         self.effect = effect
 
 class Scene:
