@@ -1,7 +1,6 @@
-import characters
 import ffmpeg
-from characters import spritesheet
-from paths import *
+from src.characters import spritesheet
+from src.paths import *
 from PIL import Image
 
 class Element:

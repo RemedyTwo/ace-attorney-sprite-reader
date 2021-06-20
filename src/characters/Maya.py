@@ -1,5 +1,5 @@
-from paths import *
-from characters.spritesheet import *
+from src.paths import *
+from src.characters.spritesheet import *
 
 # pensive = Sprite(
 #     path = characters.get("Maya").get("Pensive"),

@@ -1,5 +1,5 @@
-from scene import Element, Scene
-from characters import Maya
+from src.scene import Element, Scene
+from src.characters import Maya
 
 first = Element(
     background = "Kurain Village", 
