@@ -2,7 +2,7 @@ from paths import *
 from characters.spritesheet import *
 
 happy = Sprite(
-    path=maya.get("Happy"),
+    path=characters.get("Maya").get("Happy"),
     chunks={
         "main": Chunk((35, 26), (35 + 626, 26 + 946), (0, 23)), # pixel haut gauche inclus, pixel bas droite exclus, position haut gauche inclus
         "anim1": Chunk((756, 3), (756 + 432, 3 + 753), (127, 0)),
